@@ -1,0 +1,48 @@
+#include<cstdio>
+int main(){
+    int row, col;               //行、列
+    char c;
+    scanf("%d %c", &col, &c);   //输入列数、欲使用的字符
+    if(col % 2 == 1) row = col / 2 + 1; // col 为奇数，向上取整
+    else row = col / 2;         // col 为偶数
+
+    //第 1 行
+    for(int i = 0; i < col; i++){
+        printf("%c", c);        // col 个字符 
+    } 
+    printf("\n");
+
+    //第 2 ~ row-1 行
+    for(int i = 1; i < row-1; i++){
+        printf("%c", c);
+        for(int j = 0; j < col - 2; j++){
+            printf(" ");        // col-2 个空格 
+        }
+        printf("%c\n", c);      // 每行的最后一个 a 
+    } 
+
+    //第 row 行
+    for(int i = 0; i < col; i++){
+        printf("%c", c);        //col 个字符 
+    } 
+    return 0;
+} 
+
+
+---------------------------------------------------------------------------------
+自己的代码
+#include <iostream>
+using namespace std;
+
+int main(){
+  int n;
+  char m，n;
+  l = ' '
+  cin>>n>>m;
+  cout<<n*m;
+  for (int i=0,i<(n+1)/2,i++){
+    cout<<n<<l*(n-2)<<n;
+  }
+  cout<<n*m;
+}
+return 0;
