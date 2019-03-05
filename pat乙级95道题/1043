@@ -1,0 +1,62 @@
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+int main(){
+  string str;
+    int vP=0,vA=0,vT=0,ve=0,vs=0,vt=0;
+    cin>>str;
+    for(int i=0;i<str.length();i++){
+        switch (str[i]){
+            default:
+                break;
+            case 'P':
+                vP++;
+                break;
+            case 'A':
+                vA++;
+                break;
+            case 'T':
+                vT++;
+                break;
+            case 'e':
+                ve++;
+                break;
+            case 's':
+                vs++;
+                break;
+            case 't':
+                vt++;
+                break;  
+        }
+
+    }
+    while(vP+vA+vT+ve+vs+vt!=0){
+        if(vP!=0){
+            cout<<'P';
+            vP--; 
+        }
+        if(vA!=0){
+            cout<<'A';
+            vA--; 
+        }
+        if(vT!=0){
+            cout<<'T';
+            vT--; 
+        }
+        if(ve!=0){
+            cout<<'e';
+            ve--; 
+        }
+        if(vs!=0){
+            cout<<'s';
+            vs--; 
+        }
+        if(vt!=0){
+            cout<<'t';
+            vt--; 
+        }
+    }
+    return 0;
+}
