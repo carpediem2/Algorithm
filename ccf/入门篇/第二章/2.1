@@ -15,6 +15,8 @@ int main()
   cout<<a<<endl;
   return 0;
 }
+int:空间占用4字节，允许存放在a中的数据为-2147483648~2147483647范围内对应的字符。
+
 
 2.1.2 变量名
     变量是个多义词，在计算机语言变量中变量表示某个存储数据空间的名称，需要遵守一定的规则：
@@ -40,7 +42,7 @@ int main()
   cout<a<<endl;
   return 0;
 }
-float:空间占用4字节，允许存放在a中的数据为
+float:空间占用4字节，允许存放在a中的数据为-128~127范围内对应的字符。
 
 //exam2.4
 #include<iostream>
@@ -50,5 +52,19 @@ int main()
   char a;
   a='A';
   cout<a<<endl;
+  return 0;
+}
+char:空间占用1字节，允许存放在a中的数据为-3.4E+38~3.4E+38范围内对应的字符。
+
+
+
+//exam2.5
+#include<iostream>
+using namespace std;
+int main()
+{
+  float x=7.5;          //定义变量同时可以给变量附一个初始值
+  float y=10.6;
+  cout<"Area of a rectangle:"<<x*y<<endl;
   return 0;
 }
