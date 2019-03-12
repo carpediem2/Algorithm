@@ -1,0 +1,107 @@
+2.2.1 赋值语句
+    格式
+        变量  赋值运算符  表达式
+    含义：将运算的结果放到变量中存储起来。
+
+    a+=b与a=a+b
+    前者执行速度比后者快。表示先计算a+b=6,然后赋值给a
+
+
+
+实现x，y值的交换
+//exam
+#include<iostream>
+using namespace std;
+int main()
+{
+   float x,y,z;
+   x=10.5;
+   y=30.6;
+   cout<<x<<""<<y<<endl;
+   t=x;x=y;y=t;
+   cout<<x<<""<<y<<endl;
+   return 0;
+}
+
+
+
+//exam
+#include<iostream>
+using namespace std;
+int main()
+{
+   float x,y,z;
+   x=10.5;
+   y=30.6;
+   cout<<x<<""<<y<<endl;
+   x+=y;y=x-y;x--y;
+   cout<<x<<""<<y<<endl;
+   return 0;
+}
+
+
+2.2.2 变量的自增和自减
+    变量值+1：
+    i++/++i
+
+
+//exam
+#include<iostream>
+using namespace std;
+int main()
+{
+   int n1,n2=5;
+   n2++;
+   cout<<"n2="<<n2<<endl;
+   ++n2;
+   cout<<"n2="<<n2<<endl;
+   n1=n2++;
+   cout<<"n1="<<n1<<" n2="<<n2<<endl;  //先把n2的值赋给n1，然后n2再加一，执行后n1,n2值不同
+   n1=++n2;
+   cout<<"n1="<<n1<<" n2="<<n2<<endl;  //n2+1后赋给n1，执行后n1，n2值相同。
+   return 0;
+}
+
+
+2.2.3
+//exam
+#include<iostream>
+#include<cmath>   //cmath是C++ 的数学函数库，含计算公式的具体实现
+using namespace std;
+int main()
+{
+   float x,y;
+   x=sqrt(5290.0/4000.0)-1;
+   y=5290*(1+x);
+   cout<<"2015年月工资为： "<<y<<endl;
+   return 0;
+}
+
+
+2.2.4 常量定义
+常量：常量的值在程序中不能发生变化。
+格式
+    <类型说明符> const <常量名>
+      如：int const X=2；
+    或：
+    const <类型说明符> <常量名>
+      如：const int X=2；
+      
+ 
+ //exam
+#include<iostream>
+using namespace std;
+int main()
+{
+   const float PI = 3.14159265;
+   float radius,area;
+   radius=7;
+   area=PI*radius*radius;
+   cout<<"Circular area="<<area<<endl;
+   return 0;
+}
+
+在程序中使用常量的优点：
+    1）.修改方便。
+    2）.可读性强。如上例中PI可值代表的是圆周率。
+    3).为了区别常量和变量，通常程序中常量名用大蝎子米表示。
