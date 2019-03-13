@@ -1,0 +1,33 @@
+2.4.1 cin语句格式
+用“流”(stream)的方式实现。
+格式
+    cin>>a>>b>>c>>d;
+    cin>>a;
+    cin>>b;
+2.4.2 cin语句的使用
+在用cin输入时，系统会根据变量的类型从输入流中提取相应长度的字节。
+结论：
+    （1）cin语句把空格字符和回车换行符作为分隔符，不输入给变量。如果想将空格字符或回车换行符（或任何其他键盘上的字符）
+         输入给字符变量。可用getchar()函数。
+    （2）cin语句忽略多余的输入数据。
+    （3）在组织输入流数据时，要仔细分析cin语句中变量的类型，按照相应的格式输入，否则容易出错。
+    
+    
+    p42
+    //exam
+    #include<iostream>
+    using namespace std;
+    int main(){
+       char guidepost;
+       double d,s,k,cost;
+       double time,l,totalcost;
+       cin>>guidepost;
+       cin>>d>>s>>k>>cost;
+       time=d/s;
+       l=d/k;
+       totalcost=l*cost;
+       cout<<guidepost<<ebdl;
+       cout<<"time= "<<time<<endl;
+       cout<<"totalcost= "<<totalcost<<endl;
+       return 0;
+    }
