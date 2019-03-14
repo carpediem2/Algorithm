@@ -29,3 +29,55 @@ int main(){
 
 2.5.2 scanf
 scanf("格式控制字符串"，地址表列)；
+&:取地址运算符   &a:表达式，其功能为求变量的地址。
+格式符：
+     d,i:用于输入十进制整数
+     u:以无符号十进制形式输入十进制整数
+     o（字母）:用于输入八进制整数
+     x：用于输入十六进制整数
+     c:用于输入单个字符
+     s:用于输入字符串（非空格开始，空格结束，字符串变量以‘\0’结尾）
+     f:用于输入实数（小数或指数均可）
+     e：与f相同（可与f互换）
+     
+附加格式说明符：
+     l（字母）：l用于double型实数(%lf，%le)
+     域宽（一个整数）：指定输入所占列宽
+     *：表示对应输入量不赋给一个变量
+
+//exam
+#include<cstdio>
+using namespace std;
+int main(){
+  int a,b,c;
+  printf("input a,b,c\n");
+  scanf("%d%d%d",&a,&b,&c);
+  printf("a=%d,b=%d,c=%d",a,b,c);
+  return 0;
+}
+//scanf函数本身不能显示提示串，故先用printf在屏幕上输出提示
+
+//exam
+#include<cstdio>
+using namespace std;
+int main(){
+  int a；
+  double b；
+  char c;
+  scanf("%c%d,%lf",&c,&a,&b);
+  printf("结果是：\n")
+  printf("%c %d %.2lf",c,a,b);
+  return 0;
+}
+
+
+
+//exam
+#include<cstdio>
+using namespace std;
+int main(){
+  int a,b;
+  scanf("%d%*d%d",&a,&b);
+  printf("a=%d,b=%d\n",a,b);
+  return 0;
+}
