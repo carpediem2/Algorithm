@@ -1,2 +1,45 @@
 鸡兔同笼 共35头，94脚，求鸡，兔各多少只。
 //exam
+#include<iostream>
+using namespace std;
+int main(){
+   int a,b,x,y;
+   a=35;
+   b=94;
+   x=2*a-b/2;
+   y=b/2-a;
+   cout<<"x="<<x<<" y="<<y<<endl;
+   return 0;
+}
+
+公交车从始发站到末站所花时间。于a时b分从始发站出发。并于当天的c时d分到达终点站。
+（以上表述均为24小时制）。公交车从始发站到终点站共花费了e小时f分钟（0<=f<=60）.
+求输出e和f的值。
+//exam
+#include<iostream>
+using namespace std;
+int main(){
+   int a,b,c,d,e,f,timepast;
+   cin>>a>>b>>c>>d;
+   timepats=60*c+d-(60*a+b);
+   e=timepast/60;
+   f=timepats%60;
+   cout<<"公交车从首站到末站共用了"<<e<<"小时"<<f<<"分钟"<<endl;
+   return 0;
+}
+
+计算机随机生成一道加减混合运算题，输出题目和运算结果。参加运算的数据为1~1000的随机整数。
+//exam
+#include<iostream>
+#include<ctime>
+#include<cstdlib>
+using namespace std;
+int main(){
+   int x,y,z;
+   srand(time(0));
+   x=rand()%1000+1;
+   y=rand()%1000+1;
+   z=rand()%1000+1;
+   cout<<x<<"+"<<y<<"-"<<z<"="<<x+y-z<<endl;
+   return 0;
+}
