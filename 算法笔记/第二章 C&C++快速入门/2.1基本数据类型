@@ -1,0 +1,171 @@
+2.1.1 变量的定义：
+    变量类型 变量名；
+    变量类型 变量名=初值；
+    条件：
+        1）不能是C语言标识符；
+        2）变量名的第一个字符必须是字母或下划线。其他字符必须是字母，数字或下划线。
+        3）区分大小写。
+ 
+ 2.1.2 变量类型
+    整型：int (short一般不常用) 32bit 4Byte   -2^31~(2^31-1)  10^9或32为整数
+         long long             64bit 8Byte  -2^63~(2^63-1)  (long long 型赋大于2^31-1的初值，要在初值后面加LL,否则会编译错误) 10^18或64为整数
+         整型数据，都可以在前面加一个unsigned，表示无符号型，如：
+           unsigned int  0~2^32-1
+           unsigned long long  0~2^64-1
+           long long bignum;
+           long long bignum = 123456789012345LL;
+            //exam
+           #include<stdio.h>
+           int main(){
+             int a = 1, b = 2;
+             printf("%d",a + b);
+             return 0;
+           }
+    浮点型：float （单精度）32bit（1bit作符号位，8bit作指数位，23bit作尾数位）-2^128~2^128 有效精度只有6~7位 (少用)
+           double （双精度）64bit （1bit作符号位，11bit作指数位，52bit作尾数位）-2^1024~2^1024 有效精度有15~16位
+           float fl;
+           float fl = 3.1415;
+           double db;
+           double db = 3.1415926536;
+           //exam
+           #include<stdio.h>
+           int main(){
+             double a = 3.14, b = 0.12;
+             double c = a + b;
+             printf("%f",c);
+             return 0;
+           }
+    字符型：char 
+           1）字符常量（必须用''标注）使用ASCII码统一编码。标准ASCII码范围0~127。0~9（48~57），A~Z(65~90),a~z(97~122)
+           小写字母比大写字母的ASCII码值大32
+            char c;
+            char c = 'e';
+            #include<stdio.h>
+             int main(){
+               char c1 ='z',c2 = 'j',c3 = 117;
+               printf("%c$c%c",c1,c2,c3);
+               return 0;
+            2）转义字符 斜线后的字母失去了本身的含义，因此又称为“转义字符”
+               "\"+字母：表示控制字符；如：\n表示换行；\0代表空字符NULL,其ASCII码为0，请注意\0不是空格
+               #include<stdio.h>
+               int main(){
+                 int a = 1, b = 2;
+                 printf("%d\n\n%d",a , b);
+                 printf("%c",7);  没有显示任何输出，因为ASCII为7的字符是控制字符（控制响铃功能），计算机应该会响一下。
+                 return 0;
+            3）字符串常量  双引号标记的字符集"Woncweinwoiv"
+               C语言中午基本数据类型可以存储（C++中有string类型）
+               字符串常量可以作为初值赋给字符数组，并使用%s的格式输出
+               #include<stdio.h>
+               int main(){
+                 char str1[25] = "Wo ai de ren bu ai wo";
+                 char str2[25] = "so sad a story it is.";
+                 printf("%s, %s",str1, str2);
+                 return 0;
+               不能把字符串常量赋给字符变量。char c = "abcd"是不允许的
+    布尔型：bool
+            C++中可直接使用，C语言中需添加头文件<stdbool.h> true:1;false:0;
+            #include<stdio.h>
+             int main(){
+               bool flag1 = 0; flag2 = true;
+               int a = 1, b = 1;
+               printf("%d %d %d\n",flag1, flag2, a==b); //判断a是否等于b.因为相等，为true，输出1.
+               return 0;
+ 
+ 2.1.3 强制类型转换
+             （新类型名） 变量名
+             #include<stdio.h>
+             int main(){
+               double r = 12.56;
+               int a = 3, b = 5;
+               printf("%d\n";(int)r); //转换成int类型
+               printf("%d\n",a / b);
+               printf("%.1f",(double)a / (double)b);
+               return 0;
+             若将一个类型的变量赋值给另一个类型的变量，却没有写强制类型转换操作，那么编译器将会自动进行转换。
+             若是在计算的过程中需要转换类型，就不能等它算完再在赋值的时候转换。
+ 
+ 
+ 2.1.4 符号常量和const常量
+             符号常量：“替换”，即用一个标识符来代替常量，又称为“宏定义”或“宏替换”。
+             #define 标识符 常量
+             #define pi 3.14
+             #include<stdio.h>
+             #define pi 3.14;
+             int main(){
+               double r = 3;
+               printf("%f\n",pi * r *r);
+               return 0;
+             
+             const 数据类型 变量名 = 常量； (推荐)
+             const double pi = 3.14；
+             #include<stdio.h>
+             const double pi 3.14;
+             int main(){
+               double r = 3;
+               printf("%f\n",2 * pi *r);
+               return 0;
+               
+               
+               define除了可以定义常量外，还可以定义任何语句或片段。
+               #define 标识符 任何语句或片段
+               #define ADD(a,b) ((a)+(b)) //宏定义直接将对应部分替换，然后才进行编译和运行
+               
+               #include<stdio.h>
+               #define ADD(a,b) ((a)+(b))
+               int main(){
+                 int num1 = 3, num2 = 5;
+                 printf("%d",ADD(num1,num2));
+                 return 0;
+             
+             
+             #include<stdio.h>
+               #define CAL(x) (x*2+1)
+               int main(){
+                 int a = 1;
+                 printf("%d\n",CAL(a+1));//实际上是（a+1*2+1）,不是((a+1)*2+1)
+                 return 0;
+              尽量不要使用宏定义做除了定义常量以外的事情，出发给能加的地方都加上括号。
+ 
+ 
+ 2.1.5 运算符
+            
+            +-*、%++--
+            i++：先使用i，再将i+1
+            ++i：先将i+1再使用i
+           逻辑运算符：
+               && 与 同为真时为真，其余为假
+               || 或 同为假时为假，其余为真
+               ！ 非 若真，返回假。若假，返回真
+            条件运算符：
+              （？：）
+               A?B:C;
+               若A为真，则执行并返回B结果；若A为假，则执行并返回C的结果。
+               
+               #include<stdio.h>
+               int main(){
+                 int a = 3, b = 5;
+                 int c = a > b ? 7 : 11;
+                 printf("%d"\n,c);
+                 return 0;
+                 
+               #include<stdio.h>
+               #define MAX(a,b) ((a)>(b) ? (a) : (b))
+               int main(){
+                 int a = 4, b = 3;
+                 printf("%d",MAX(a,b));
+                 return 0;
+                 
+             位运算符：
+                <<: 左移    a<<x 整数a按二进制左移x位
+                >>: 右移    a>>x 整数a按二进制右移x位
+                &:  位与    a&b  整数a和b按二进制对齐，按位进行与运算（除了11得1，其他均为0）
+                |:  位或    a|b  整数a和b按二进制对齐，按位进行或运算（除了00得0，其他均为1）
+                ^:  位异或  a^b  整数a和b按二进制对齐，按位进行异与运算（相同为0，不同为1）
+                ~:  位取反  ~a   整数a的二进制的每一位进行0变1,1变0的操作 
+               由于int的上限为2^31-1，因此有时程序中无穷大的数INF可以设置成（1<<31）-1
+               必须加括号，因为位运算的优先级没有算术运算符高。但是一般更常用的是2^30-1，因为它可以避免相加超过int的情况。
+               若把2^30-1写为二进制的形式就是0xfffffff
+               const int INF = (1<<30) -1;
+               const int INF = 0x3fffffff;
+               
