@@ -1,0 +1,186 @@
+2.3.1 if语句
+    if（条件A）{     //当条件A为真时，执行省略号内容
+      ...
+    }
+    //exam
+    #include<cstdio>
+    //using namespace std;
+    int main(){
+      int n = 5;
+      if(n>3){
+        n = 9;
+        printf("%d\n",n)  //输出9
+      }
+      return 0;
+    }
+    
+    if（条件A）{     
+      ...
+    }else{
+      ...
+    }
+    //exam
+    #include<cstdio>
+    //using namespace std;
+    int main(){
+      int n = 2;
+      if(n>3){
+        n = 9;
+        printf("%d\n",n)  
+      }else{
+        printf("%d\n",n)   //输出2
+      }
+      return 0;
+    }
+    
+    
+    if（条件A）{     
+      ...
+    }else if(条件B){
+      ...
+    }else{
+      ...
+    }
+    //exam
+    #include<cstdio>
+    //using namespace std;
+    int main(){
+      int n = 2;
+      if(n>3){
+        n = 9;
+        printf("%d\n",n)  
+      }else if(n>2){
+        printf("%d\n",n+1)   
+      }else{
+        printf("%d\n",n)   //输出2
+      }
+      return 0;
+    }
+    
+    (一般只有在明确不会出错的情况下才可以将大括号去掉)
+    在if条件中，如果表达式是"!=0"或"==0"，则可以采用比较简单的写法
+    （1）如果表达式是"!=0"，则可以省略"!=0"。
+    #include <cstdio>
+    int main(){
+       int n = 0,m = 5;
+       if(n){
+           printf("n is not zero!\n");
+       }else{
+           printf("n is zero!\n");      //n is zero!
+       }
+       if(m){
+           printf("n is not zero!\n");  //m is not zero!
+       }else{
+           printf("n is zero!\n");
+       }
+       return 0;
+    }
+    (if条件语句接收的是括号中表达式的“真”或“假”，也即1或0.n本身作为一个整数，n=0时，相当于假，不为0时，相当于真
+    所以在if中填写这种表达式就可以直接作为真假判断)
+    （2）如果表达式是"==0"，则可以省略"==0"，并在表达式前添加非运算符“！”
+    #include <cstdio>
+    int main(){
+       int n = 0,m = 5;
+       if(!n){
+           printf("n is zero!\n");   //n is zero!
+       }else{
+           printf("n is not zero!\n");      
+       }
+       if(!m){
+           printf("n is zero!\n");  
+       }else{
+           printf("n is not zero!\n");  //m is not zero!
+       }
+       return 0;
+    }
+    (if（!n)等价于if(n == 0)。if(n)表示if(n!=0))
+
+2.3.2 if语句的嵌套
+      if(条件A){
+         ...
+         if(条件B){
+           ...
+         }else{
+           ...
+         }
+         ...
+      }else{
+        ...
+      }
+      
+      //exam
+      #include<cstdio>
+      int main(){
+        int n = 3,m = 5;
+        if(n<5){
+          if(m<5){
+            printf("%d\n",m+n);
+          }else{
+            printf("%d\n",m-n);    //输出2
+          }
+        }else{
+            printf("haha\n")
+        }
+        return 0;
+      }
+      
+  
+ 2.3.3 switch语句
+    switch语句在分支条件较多时会显得比较精炼，分支条件较少时用的不多。
+    switch(表达式){
+      case 常量表达式1:
+         ...
+         break;
+      case 常量表达式2:
+         ...
+         break;
+      case 常量表达式3:
+         ...
+         break;
+      case 常量表达式n:
+         ...
+         break;
+      default:
+         ...
+    }
+    
+    exam//
+    #include<cstdio>
+    int main(){
+       int a = 1,b = 2;
+       switch(a+b){
+         case 2:
+              printf("%d\n",a);
+              break;
+         case 3:
+              printf("%d\n",b);    //输出2
+              break;
+         case 4:
+              printf("%d\n",a+b);
+              break;
+         default:
+              printf("sad story\n");
+       }
+       return 0;
+    }
+    （以a+b作为需要判断的表达式，当a+b为2,3,4时各自有需要输出的东西，其他情况输出sad story）
+    
+    
+    exam//
+    #include<cstdio>
+    int main(){
+       int a = 1,b = 2;
+       switch(a+b){
+         case 2:
+              printf("%d\n",a);
+         case 3:
+              printf("%d\n",b);    //输出2，3，sad story
+         case 4:
+              printf("%d\n",a+b);
+         default:
+              printf("sad story\n");
+       }
+       return 0;
+    }
+    （删去break语句后，程序将会从第一个匹配的case开始执行语句，直到其下面的所有语句都执行完毕才会退出switch）
+    （break的作用在于可以结束当前switch语句）
