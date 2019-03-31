@@ -1,0 +1,150 @@
+2.6.1  函数的定义
+      函数是一个实现一定功能的语句的集合，并在需要时可以反复调用而不必每次都重新写一遍。如：
+     math.h头文件下面的sin（），pow（）等数学函数就是系统已经帮其实现好功能的、用户可以直接使用的函数。
+       基本语法格式：
+        返回类型 函数名称（参数类型 参数）{
+           函数主体
+        }
+        //exam
+        #include <cstdio>
+        
+        void print1(){   //print1是函数名称，空括号代表无参函数（不需要提供参数就可以执行的函数）
+          print("Haha,\n");   //函数实体，即print1函数需要实现的功能
+        } 
+        
+        int main(){
+           print1();  //Haha,
+           return 0;
+        }
+        //void的含义是“空”即不返回任何东西，如果自定义函数只是实现一些语句而不返回变量，则可以表示返回类型为空。
+        
+        //exam有参函数
+        #include <cstdio>
+        
+        int judge(int x){  //参数函数，返回类型为int型（是否是有参函数跟是否有返回类型无关）
+           if(x>0) return 1;
+           else if(x == 0) return 0;
+           else return -1;  //return后的数据类型要和一开始给出的返回类型相同
+        }
+        
+        int main(){
+          int a,ans;
+          scanf("%d",&a);   //-4
+          ans = judge(a);
+          printf("%d\n",ans);  //-1
+          return 0;
+        }
+        
+        （1）全局变量
+         在定义之后的所有程序段内都有效的变量（定义在所有函数之前）
+         //exam
+         #include<cstdio>
+         int x;
+         void change(){
+           x += 1;
+         }
+         int main(){
+           x = 10;
+           change();
+           printf("%d\n",x);  //11
+           return 0;
+         }
+         (2)局部变量
+         定义在函数内部，且只在函数内部生效，函数结束时局部变量销毁
+         //exam
+         #include <cstdio>
+         void change(int x){
+           x += 1;
+         }
+         int main(){
+           int x = 10;
+           change(x);
+           printf("%d\n",x);   //10
+           return 0;
+         }
+         （x虽作为参数传入change函数，并令x加1，但最后输出x时却仍是10.）
+         （这是因为change函数的参数x为局部变量，仅在函数内部生效，通过chang（x）传进去的x其实只是传进去一个副本
+         即：change函数的参数x和main函数里的x其实是作用于两个不同函数的不同变量（虽然名字相同）
+         取不同名字也是可以的。这种传递参数的方式称为 “值传递”，函数定义的小括号内的参数称为形式参数或形参，
+         而把实际调用时小括号内的参数称为 “实际参数”或“实参”。）
+         函数的参数个数可以有多个，如：
+         //exam
+         int MAX(int a,int b,int c){
+            函数主体；
+         }
+     
+ 
+2.6.2 再谈main函数
+        一个程序只能有一个主函数，并且无论主函数在哪个位置，整个程序一定是从主函数的第一个语句开始执行。
+      然后在需要调用其他函数时才去调用。
+      结构：
+       int main(){   //main为函数名称。括号为空，代表无参函数。返回类型是int型
+          ···
+          return 0;    //对计算机而言，main函数返回0的意义在于告知系统程序正常终止。
+       }
+       
+       
+2.6.3 以数组作为函数参数
+      以数组作为函数参数时，参数中数组的第一维不需要填写长度（如果是二维数组，那么第二维需要填写长度），实际调用时也只需要填写数组名。
+    最重要的是，数组作为参数时，在函数中对数组元素的修改等同于对原数组元素的修改（与普通的局部变量不同）
+    //exam
+    #include <cstdio>
+    
+    void change(int a[],int b[][5]){
+       a[0] = 1;
+       a[1] = 3;
+       a[2] = 5;
+       b[0][0] = 1;
+    }
+    
+    int main(){
+      int a[3] = {0};
+      int b[5][5] = {0};
+      change(a,b);
+      for(int i = 0;i < 3;i++){
+         printf("%d\n",a[i]);  //1
+      }                        //3
+      return 0;                //5
+    }
+    虽然数组可作为参数，但是却不允许作为返回类型出现。若想返回数组，只能将想要返回的数组作为参数传入。
+    
+    
+2.6.4 函数的嵌套调用
+     函数的嵌套调用是指在一个函数中调用另一个函数，调用方式和之前的main函数调用其他函数相同。
+     //exam
+     #include <cstdio>
+     
+     int max_2(int a,int b){
+       if(a>b) return a;
+       else return b;
+     }
+     
+     int max_3(int a,int b,int c){
+        int temp = max_2(a,b);
+        temp = max_2(temp,c);
+        return temp;
+     }
+     
+     int main(){
+       int a,b,c; 
+       scanf("%d%d%d",&a,&b,&c);     //3 5 4
+       printf("%d\n",max_3(a,b,c));   //5
+       return 0;
+     }
+     main函数先调用max_3函数，在max_3中又调用了max_2函数来比较两个整数的大小。
+     
+     
+2.6.5 函数的递归调用
+    递归是函数自己调用自己的过程。具体看第四章。
+    //exam(计算n的阶乘)
+    #include <cstdio>
+    int F(int n){
+       if(n == 0) return 1;
+       else return F(n-1)*n;
+    }
+    int main(){
+       int n;
+       scanf("%d",&n);  //3
+       printf("%d\n",F(n));  //6
+       return 0;
+    }
