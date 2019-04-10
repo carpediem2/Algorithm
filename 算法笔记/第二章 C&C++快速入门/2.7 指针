@@ -70,5 +70,188 @@
          
          
 2.7.3 指针和数组
+       C语言中，数组名称也作为数组的首地址使用。即对数组a[]有a==&a[]成立。
+       //exam
+       #include <cstdio>
+       int main(){
+          int a[10] = {1};
+          int* p = a;   //a作为数组a的首地址&a[0]而被赋值给指针变量p，因此输出*p就是输出a[0]
+          printf("%d\n",*p);  //1
+          return 0;
+       }
+       (指针变量可以进行加减法-->a+i等同于&a[i] （a+i就是指数组a的首地址偏移i个int型变量的位置） )
+       （a+i只是个地址，若要访问其中的元素a[i]，需要加上星号--> *(a+i)与a[i]等价）
+       scanf("%d",a+i);
+       scanf("%d",&a[i]);   两者相等
+       //exam
+       #include <cstdio>
+       int main(){
+         int a[10];
+         for(int i=0;i<10;i++){
+           scanf("%d",a+i);
+         }
+         for(int i = 0;i < 10;i++){
+           printf("%d",*(a + i));  // 把这句放入上面循环,输入一个随即就输出。
+         }
+         return 0;
+       }
+       //由于指针变量可以使用自增操作，可以按下方枚举数组中的元素：
+       #include <cstdio>
+       int main(){
+         int a[10] = {1,2,3,4,5,6,7,8,9,10};
+         for(int* p = a;p < a + 10;p++){
+           printf("%d ",*p);
+         }
+       }
        
+       指针的减法
+       //exam
+       #include<cstdio>
+       int main(){
+         int a[10] = {1,4,9,16,25,36,49};
+         int* p = a;
+         int* q = &a[5];
+         printf("q=%d\n",q);  //q=2686708
+         printf("p=%d\n",p);  //p=2686688
+         pprintf()"rint("q-p=%d\n",q-p);  //q-p=5
+         return 0;
+       }
+       (q与p的具体数值与运行环境有关，但两者之间一定是相差20的)
+       q-p就是指两个地址之间的距离，而这个距离以int为单位。由于一个int占用4Byte。因此实际上两个指针之间的距离应该是20/4=5
+       使用会输出5。即： 两个int型的指针相减，等价于在求两个指针之间相差了几个int。
+       
+       
+2.7.4 使用指针变量作为函数参数
+      当指针类型作为函数参数的类型，这时视为把变量的地址传入函数。如果在函数中对这个地址的元素进行改变，原先的数据就会确实地改变。
+      //exam
+      #include<cstdio>
+      
+      void change(int* p){ //这种传递方式被称为地址传递
+        *p = 233;
+      }
+      
+      int main(){
+        int a = 1;
+        int* p = &a;
+        change(p);
+        printf("%d\n",a);  //233
+        return 0;
+      }
+      
+      
+      使用指针作为参数，交换两个数
+      //exam无法做到交换功能
+      #include <cstdio>
+      
+      void swap(int a,int b){//函数在接受函数的过程中是单向一次性的值传递。
+         int temp = a;       //在调用swap(a,b)时只是把a和b的值传进去，相当于产生了一个副本
+         a = b;              //对副本的操作不会影响main函数中的a，b值。
+         b = temp;
+      }
+      
+      int main(){
+         int a=1,b=2;
+         swap(a,b);
+         printf("a=%d,b=%d\n",a,b);  //a=1,b=2
+         return 0;
+      }
+       
+     指针变量存放的是地址，所以使用指针变量作为参数时传进来的也是地址。
+     只有在获取地址的情况下对元素进行操作，才能真正地修改变量
+     //exam
+     #include<cstdio>
+     
+     void swap(int* a,int* b){//传入地址
+        int temp = *a;        //传入地址中放的数据,直接对地址中存放的数据进行操作。
+        *a = *b;
+        *b = temp;
+     }
+       
+     int main(){
+        int a= 1,b=2;
+        int *p1 = &a,*p2 = &b;
+        swap(p1,p2);
+        printf("a=%d,b=%d\n",*p1,*p2); //a=2,b=1
+        return 0;
+     }  
          
+     两种错误写法：
+     一：
+     void swap(int*a,int* b){//*temp,*a,*b都可以看做int型变量，可以像普通变量那样进行交换操作
+       int* temp;            //想法没问题，但问题出在temp上，定义int*型指针变量temp时，temp未初始化
+       *temp = *a;           //也就是说指针变量temp存放的地址是随机的，若该随机地址指向的是系统工作区间，就会出错（概率很大）
+       *a = *b;              
+       *b = *temp;
+     }
+     改正
+     void swap(int*a,int* b){
+       int x;
+       int* temp = &x;            
+       *temp = *a;           
+       *a = *b;              
+       *b = *temp;
+     }
+     
+     二：
+     void swap(int* a,int* b){//思想是直接把两个地址交换，认为地址交换后元素就交换了，其实不对
+       int* temp = a;         //这里的误区是：认为swap函数交换完地址后main函数里的a和b地址也被交换
+       a = b;                 //前面说过函数参数的传送方式是单向一次性，main函数传给swap函数的“地址”其实是一个“无符号整形”的数
+       b = temp;              //其本身也跟普通变量一样只是“值传递”,swap函数对地址本身进行修改并不能对main函数里的地址修改
+     }                //能够使main函数里的数据发生变化的只能是swap函数中对地址指向的数据进行修改
+  //对地址本身修改等价于之前交换函数例子，只是副本，对数据无实质性的影响。即相当于把int*看做整体传入的a，b都只是地址的副本
+  
+  
+2.7.5 引用
+    函数的参数只是作为局部变量，对局部变量的操作不会影响到外部的变量。
+    如果想修改传入的参数，只能用指针。
+    在不使用指针的情况下，可以使用C++中的“引用”
+    
+    1.引用的含义
+      引用不产生副本，而是给原变量起了个别名。两个名字指向同一个东西，且对引用变量的操作就是对原变量的操作。
+      方法很简单，在函数的参数类型后加个&就可以（&加在int后面或变量名前都可以，考虑的引用是别名的意思，一般加在变量名前）
+      //exam
+      #include<cstdio>
+      void change(int&x){//传入参数时，对参数的修改就会对原变量修改
+        x = 1;
+      }
+      int main(){
+        int x = 10;
+        change(x);
+        printf("%d\n",x);
+        return 0;
+      }
+      注意！！！！！
+      不管是否使用引用，函数的参数名和实际传入的参数名可以不同
+      //exam
+      #include<cstdio>
+      void change(int&x){//！！！引用并不是取地址的意思
+        x = 1;
+      }
+      int main(){
+        int a = 10;
+        change(a);
+        printf("%d\n",a);
+        return 0;
+      }
+      
+      2.指针的引用
+      //exam
+      #include<cstdio>
+      
+      void swap(int* &p1,int* &p2){
+        int* temp = p1;
+        p1 = p2;
+        p2 = temp;
+      }
+      
+      int main(){
+        int a = 1,b = 2;
+        int *p1 = &a,*p2 = &b;
+        swap(p1,p2);
+        printf("a = %d,b=%d\n",*p1,*p2);
+        return 0;
+      }
+      注意！！！
+      引用是产生变量的别名，因此！！！常量！！不可以使用引用
+      上面的代码不可以写成swap（&a，&b），而必须用指针变量p1，p2存放&a,&b,然后把指针变量作为参数传入
+      阅读代码时，碰到引用对其含义不了解时，可先把引用去掉，看看原意，再加上引用
