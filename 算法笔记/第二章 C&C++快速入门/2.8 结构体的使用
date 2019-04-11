@@ -1,0 +1,148 @@
+结构体：可以将若干个不同的数据类型的变量或数组封装在一起，以存储自定义的数据结构，方便存储一些复合数据
+
+2.8.1 结构体的定义
+   基本格式：
+       struct Name{
+         //一些基本的数据结构或自定义的数据类型
+       }；
+       //exam
+       struct studentInfo{
+          int id;
+          char gender;//'F'or'M'
+          char name[20];
+          char major[20];
+       }Alice,Bob,stu[1000];（若不在此处定义变量或数组，则大括号外直接加 ；）
+       结构体名：studentInfo,
+       结构体变量：Alice和Bob
+       结构体数组：stu[1000]
+   
+   定义结构体变量和结构体数组除了可以像上面直接定义之外，也可以按照基本数据类型定义：
+     //exam
+     studentInfoAlice;
+     studentInfostu[1000]
+   
+   结构体里面能够定义除了自己本身之外（这样会引起循环定义的问题）的任何数据类型，
+ 虽不能定义自己本身，但可以定义自身类型的指针变量。
+     //exam
+     struct node{
+       node n;        //不能定义node型变量
+       node* next;    //可以定义node*型指针变量
+     }；
+2.8.2 访问结构体内的元素
+     访问结构体内的元素有两种方法：“.”操作和"->"操作
+     //exam
+     struct studentInfo{
+        int id;
+        char name[20];
+        studentInfo* next;
+     }stu,*p;     //studentInfo中多了一个指针next用来指向下一个学生的地址，且结构体变量中定义了普通变量
+     stu和指针变量p
+     所以：
+        访问stu中变量的写法为：
+        stu.id
+        stu.name
+        stu.next
+        访问指针变量p中的元素写法：
+        (*p).id
+        (*p).name
+        (*p).next
+        对结构体变量和结构体指针变量内元素的访问方式相同，在变量名后面加“.”然后跟上访问的元素即可
+       但，对结构体指针变量中元素的访问写法略显复杂，所以C语言中可以有另一种更简洁的写法：
+        p->id
+        p->name
+        p->next
+        结构体指针变量内元素的访问使用“->”和“.”的写法是完全等价的。
+        
+        可以给stu.id赋值或者把stu.id赋值给其他变量：
+        stu.id = 10086;
+        int getId = stu.id;
+2.8.3  结构体的初始化
+        可以先定义结构体变量，再对其中变量逐一赋值，以达到初始化的目的，
+          stu.id = 1;
+          stu.gender = 'M';
+        或者在读入时进行赋值
+           scanf("%d %c",&stu.id,&stu.gender);
+        ！！！这种方法在结构体内变量很多时会不方便
+           
+           
+       使用“构造函数”的方法来进行初始化。所谓：
+       构造函数就是用来初始化结构体的一种函数，它直接定义在结构体中。它不需要写返回类型，且函数名与结构体名称相同
+        一般来说，对一个普通定义的结构体，其内部会生成一个默认的构造函数（但不可见）。
+        //exam
+        struct studentInfo{
+           int id;
+           char gender;
+           //默认生成的构造函数
+           studentInfo(){}   //构造函数函数名与结构体类型名相同；没有返回类型，所以studenfInfo前面没有写东西
+        };     //没有参数，所以小括号内是空的；也没有函数体，因此花括号内也是空的。
+           //因为这个构造函数的存在，才可以直接定义studentInfo类型的变量而不进行初始化。因为它没有让用户提供任何初始化参数
+           
+       若要手动提供id和gender的初始化参数，只需提供初始化参数来对结构体内的变量进行赋值即可，_id，_gender都是变量名
+        struct studnetInfo{
+           int id;
+           char gender;
+           //下面的参数用以对结构体内部变量进行赋值
+           studentInfo(int _id,char _gender){
+             //赋值
+             id = _id;
+             gender = _gender;
+           }
+        };
+         ！！构造函数也可以简化成一行
+         struct studentInfo{
+           int id;
+           char gender;
+           studentInfo(int _id,char _gender):id(_id),gender(_gender){}
+         };
+         这样可以在需要时直接对结构体变量进行赋值
+         studentInfostu = studentInfo(10086,'M');
+         ！！！若自己重新定义了构造函数，则不能不经初始化就定义结构体变量！！！
+         即： 默认生成的构造函数"studentInfo(){}"此时被覆盖了。
+         为了既能不初始化就定义结构化变量，又能享受初始化带来的便捷，可以把"studentInfo(){}"手动加上
+         这意味着：！只要参数个数和类型不完全相同，就可以定义任意多个构造函数，以适应不同的初始化场合
+         //exam
+         struct studentInfo{
+           int id;
+           char gender;
+           //用以不初始化就定义结构体变量
+           studentInfo(){}
+           //只初始化gender
+           studentInfo(char _gender){
+             gender = _gender;
+           }
+           //同时初始化id和gender
+           studentInfo(int _id,char _gender){
+             id = _id;
+             gender = _gender;
+           }
+         };
+         
+         
+         应用实例：结果体Point用于存放平面点的坐标x，y。
+         //exam
+         #include<cstdio>
+         struct Point{
+           int x,y;
+           Point(){}  //用以不经初始化地定义pt[10]
+           Point(int _x,int _y):x(_x),y(_y){}  //用以提供x和y的初始化
+         }pt[10];
+         int main(){
+           int num = 0;
+           for(int i=1;i<=3;i++){
+            for(int j=1;j<=3;j++){
+              pt[num++] = Point(i,j);  //直接使用构造函数
+            }
+           }
+           for(int i=0;i<num;i++){
+             printf("%d,%d\n",pt[i].x,pt[i].y);
+           }
+           return 0;
+         }
+         
+          
+         ！！构造函数在结构体内元素较多时会使代码显得精炼，因为可以不需要临时变量就初始化一个结构体，而且代码更加工整
+           
+           
+           
+           
+           
