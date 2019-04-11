@@ -1,0 +1,74 @@
+2.9.1 cin和cout
+    C++中的输入输出函数，需添加头文件"#include<iostream>"和"using namespace std;"才能使用
+    cin和cout无需像scanf、printf函数那样指定输入输出的格式，也不需要取地址符&。
+    1.cin
+      cin>>n>>db>>c>>str;
+      ！若要读入一整行
+      char str[100];
+      cin.getline(str,100);  //把一整行都读入char型数组str[100]中
+      ！若是string容器，需使用下面方式输入(具体看第六章)
+      string str;
+      getline(cin.str);
+    2.cout
+      cout<<n<<"haha"<<db<<"heihei"<<c<<"wawa"<<str;  //可在之间输出字符串
+      cout<<n<<"\n"<<db<<endl;    //换行的两种方式： \n和endl
+      ！若想控制double型的精度，例如输出小数点后两位，需在输出前加一些东西。并加头文件<iomanip>
+      cout<<setiosflages(ios::fixed)<<setprecision(2)<<123.4567<<endl;   //123.46
+      ！！！考试慎用，cin和cout在输入\输出大量数据的情况下表现很糟糕。
+      
+2.9.2 浮点数的比较
+     引入极小数eps对浮点数在计算机存储中的误差进行修正。
+     1.等于运算符（==）
+       ！经验表明eps取 10^-8 是一个合适的数字，
+       ！对大多数情况不会漏判，也不会误判，
+       ！因此可将eps定义为常量le-8（是L）
+         const double eps = le-8;
+       为了使用方便，把比较操作写成宏定义的形式：
+         #define Equ(a,b) ((fabs((a)-(b)))<(eps))
+       a与b之差的绝对值小于极小量eps，就返回true。在Equ前面加一个非运算符“！”表不等于
+       //exam
+       #include<cstdio>
+       #include<cmath>
+       const double eps = le-8;
+       #define Equ(a,b) ((fab((a)-(b)))<(eps))
+       int main(){
+          double db = 1.23;
+          if(Equ(db,1.23)){
+            printf("true");
+          }else{
+            printf("false");
+          }
+          return 0;
+       }
+       
+       若未经过容易损失精度的计算，则不需要考虑误差可直接比较。但当一个变量经过误差较大的运算后，精度的损失就不可忽视了。
+       //exam
+       #include<cstdio>
+       #include<cmath>
+       int main(){
+         double db1 = 4*asin(sqrt(2.0)/2); //db1和db2的精确值都应该是π，但是却输出了false，
+         doubel db2 = 3*asin(sqrt(3.0)/2); //而使用Equ函数就会输出true
+         if(db1 == db2){
+           printf("true");
+         }else{
+           printf("false");
+         }
+         return 0;
+       }
+     2.大于运算符
+      #define More(a,b) (((a)-(b)>(eps))
+     3.小于运算符
+      #define Less(a,b) (((a)-(b)<(-eps))
+     4.大于等于运算符
+      #define MoreEqu(a,b) ((a)-(b)>(-eps))
+     5.小于等于运算符
+      #define LessEqu(a,b) ((a)-(b)<(eps))
+     6.圆周率π
+      cos(π) = -1--->π = arccos(-1)--->只需把π写成常量acos(-1.0)
+        const double Pi = acos(-1.0);
+     
+     ！！！！！！！
+     1.由于精度问题，在经过大量运算之后，可能一个变量中存储的0是一个很小的负数，这时对其开根号sqrt，就会因不在定义域内而出错。
+     同样问题还出现在asin（x）当x存放——1、acos（x）当x存放-1时，这种情况需使用eps使变量确保在定义域内。
+     2.在某些由编译环境产生的原因下，本因为0.00的变量在输出时会变成-0.00.这个问题是编译环境本身的bug，
+     只能把结果存放到字符串中，然后与-0.00进行比较，如果比对成功，则加上eps来修正为0.00
