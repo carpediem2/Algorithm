@@ -1,0 +1,68 @@
+//set翻译为集合（一个内部自动有序且不含重复元素的容器） 
+//头文件#include<set>  需加命名空间
+ 
+ /*
+ set的定义 
+ set<typename> name;
+ !!!!!!!!!若typename是一个STL容器，则定义时需在>>符号之间加上空格！！！！！
+ 因为一些使用C++11之前的标准的编译器会把它视作移位操作，导致编译错误
+ 
+ set数组的定义
+ set<typename> Arrayname[arraySize]; 
+ set<int> a[100];
+ 
+ set容器内元素的访问
+ set只能通过迭代器访问（iterator） 
+ set<int>::iterator it; 
+ */
+ #include<cstdio>
+ #include<set>
+ using namespace std;
+ int main(){
+ 	set<int> st;
+ 	st.insert(3);
+ 	st.insert(5);
+ 	st.insert(2);
+ 	st.insert(3);
+ 	//注意，不支持it<st.end()的写法
+	for(set<int>::iterator it = st.begin();it != st.end();it++){
+		printf("%d",*it);
+	}
+	return 0;
+ }
+ //2 3 5
+ //set内元素自动递增排序，且自动去除了重复的元素
+  
+ #include<cstdio>
+#include<set>
+using namespace std;
+int main(){
+	set<int> st;
+	for(int i=0;i<=3;i++){
+		st.insert(i);
+	}
+	set<int>::iterator it = st.find(2);//在set中查找2，返回其迭代器 
+	printf("%d",*it);
+	//st.clear()清空det中的所有元素，复杂度为O（N），N为set内的元素个数  
+	print("%d\n",st.size()) ;//输出set内元素的个数 ，O（1） 
+	//以上两句也可直接写成printf("%d\n",*(st.find(2))) ;
+	return 0;
+} 
+//st.erase(value)  value为所需要删除的元素的值。时间复杂度O（log^N） 
+//N为set内的元素个数 
+//st.erase(it)  it为所需要删除的元素的迭代器。时间复杂度O（1） 
+//st.erase(first,last)删除一个区间的所有元素  first为所需要删除区间的起始迭代器，
+//last为所需要删除区间的末尾迭代器的下一个地址。[first,last)时间复杂度O（last-first） 
+//N为set内的元素个数 
+
+//set最主要的作用是：
+//                  自动去重并按升序排序
+//-->>对需要去重但是不方便直接开数组的情况，可以尝试用set解决。
+
+
+/*
+   延伸：set中元素是唯一的
+   如需处理不唯一的情况：multiset
+   C++11标准中还增加了unordered_set,以散列代替set内部的红黑树实现 
+   使其可以用来处理只去重但不排序的需求，速度比set快得多。 
+*/ 
