@@ -1,0 +1,22 @@
+#include<cstdio>
+#include<iostream>
+using namespace std;
+
+int main(){
+	int n;
+    long long a,b,c;
+	cin>>n;
+	for(int i = 0;i<n;i++){
+		cin>>a>>b>>c;
+		if(a+b>c){
+			cout<<"Case #"<<i+1<<": true"<<endl;
+		}else{
+			cout<<"Case #"<<i+1<<": false"<<endl;
+		}
+	}
+}
+
+
+  题中范围为[-2^63,2^63]   int型的数据范围[(-2^63)-1,(2^63)-1]，所以在本题中，必须使用long long类型
+作为a,b,c的数据类型。否则会返回“答案错误”
+  使用while代码会更为简洁。若用c。则输入输出格式必须为"%lld"
