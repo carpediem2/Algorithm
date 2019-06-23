@@ -1,0 +1,75 @@
+自己的错误代码
+#include<cstdio>
+using namespace std;
+
+int main(){
+    int max_n = 2001;
+    double p[max_n] = {};
+    int k,n,count;
+    double a;
+    scanf("%d",&k);
+    for(int i = 0;i<k;i++){
+        scanf("%d %lf",&n,&a);
+        p[n] += a;
+        for(int i = 0;i<k;i++){
+            scanf("%d %lf",&n,&a);
+            if(p[n] != 0){
+                p[n + 1] = p[n] * a;
+                p[n] = 0;
+            }
+        }
+        for(int i = 0;i<max_n;i++){
+            if(p[i] != 0){
+                count++;
+            }
+        }
+        printf("%d",count);
+        for(int i = max_n;i>=0;i--){
+            if(p[i] != 0){
+                printf(" %d %.1f",i,p[i]);
+            }
+        }
+        return 0;
+    }
+}
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------
+错误版本er
+#include<cstdio>
+using namespace std;
+
+int main(){
+    int max_n = 2001;
+    double p[max_n] = {};
+    int k,n,count;
+    double a;
+    scanf("%d",&k);
+    for(int i = 0;i<k;i++){
+        scanf("%d %lf",&n,&a);
+        p[n] += a;
+        scanf("%d",&k);
+        for(int i = 0;i<k;i++){
+            scanf("%d %lf",&n,&a);
+            if(p[n] != 0){
+                p[n + 1] = p[n] * a;
+                p[n] = 0;
+            }
+        }   
+    }
+    for(int i = 0;i<max_n;i++){
+            if(p[i] != 0){
+                count++;
+            }
+        }
+    printf("%d",count);
+    for(int i = max_n;i>=0;i--){
+        if(p[i] != 0){
+            printf(" %d %.1f",i,p[i]);
+        }
+    }
+        return 0;
+}
+
+-------------------------------------------------------------------------------------------------
