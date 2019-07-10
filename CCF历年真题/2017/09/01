@@ -1,0 +1,35 @@
+#include<iostream>
+using namespace std;
+
+int main(){
+	int n,m0,m1,m2;
+	cin>>n;
+	m0 = n / 50;
+	m1 = (n - 50 * m0) / 30;
+	m2 = (n - 50 * m0 - 30 * m1) / 10;
+	cout<<m0*7+m1*4+m2;
+	return 0;
+}
+
+
+
+
+---------------------------------------------------------------
+here is mistake
+#include<iostream>
+using namespace std;
+
+int main(){
+	int n,m0,m1,m2,m3;
+	cin>>n;
+	m0 = n / 10;
+	m1 = n % 50 /10;
+	m2 = (n - 30 * m1) / 50;
+	m3 = n / 30;
+	if(n<50){
+		cout<<m0+m3;
+	}else{
+		cout<<m0+m1+m2;
+	}
+	return 0;
+}
